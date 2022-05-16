@@ -16,8 +16,12 @@
 # Mono auto generated files
 mono_crash.*
 
+#Files from Debug
+bin/Debug/SquidGame.exe
+bin/Debug/SquidGame.exe.config
+bin/Debug/SquidGame.pdb
+
 # Build results
-[Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
@@ -27,7 +31,6 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
 [Oo]bj/
 [Oo]ut/
 [Ll]og/
