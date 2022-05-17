@@ -1,7 +1,15 @@
 ﻿using System;
 
+/// <summary>
+/// Class for getting correct user input
+/// </summary>
 class UserInput
 {
+    /// <summary>
+    /// Getting the correct player's choice
+    /// </summary>
+    /// <param name="tilesInGroup">the range of numbers that can be chosen by the player</param>
+    /// <returns></returns>
     public int GetUserNum(int tilesInGroup)
     {
         string input = Console.ReadLine();

@@ -1,9 +1,18 @@
 ﻿using System;
 
+/// <summary>
+/// class of Squid Game, game options here
+/// </summary>
 class SquidGame
 {
-    public bool GameIsOn { get; set; }
+    /// <summary>
+    /// Is the game running
+    /// </summary>
+    public bool GameIsOn { get; set; } // after game was started, you cannot change game settings
 
+    /// <summary>
+    /// Maximum amount of players to be chosen randomly
+    /// </summary>
     private int maxPlayers;
     public int MaxPlayers
     {
@@ -18,6 +27,9 @@ class SquidGame
             maxPlayers = value;
         }
     }
+    /// <summary>
+    /// The number of tiles groups, that players have to pass to win
+    /// </summary>
     private int tilesGroupsNum;
     public int TilesGroupsNum
     {
@@ -32,6 +44,9 @@ class SquidGame
             tilesGroupsNum = value;
         }
     }
+    /// <summary>
+    /// The number of tiles in one group from which the player must choose one
+    /// </summary>
     private int tilesInGroup;
     public int TilesInGroup
     {
@@ -46,6 +61,9 @@ class SquidGame
             tilesInGroup = value;
         }
     }
+    /// <summary>
+    /// The amount of tiles, that will do smth with player, after he'd chosen it
+    /// </summary>
     private int tilesWillActivateNum;
     public int TilesWillActivateNum
     {
@@ -62,6 +80,7 @@ class SquidGame
         }
     }
 
+    // objects, that are needed for the game
     private ConsoleDrawing field;
     private UserInput userInput;
     private SquidGameErrors errors;
@@ -73,22 +92,26 @@ class SquidGame
         userInput = new UserInput();
         errors = new SquidGameErrors();
 
-        //default settings
+        // default settings
         MaxPlayers = 5;
         TilesGroupsNum = 5;
         TilesInGroup = 2;
         TilesWillActivateNum = 1;
     }
 
-    private int playersAliveNum;
-    private int move;
-    private Tile[][] tiles;
+    private int playersAliveNum; // alive players
+    private int move; // number of current tiles group
+    private Tile[][] tiles; // massive of tiles groups and tiles in these groups
     private ITilesFactory factory;
     private bool continueGame;
 
 
+    /// <summary>
+    /// Start the game
+    /// </summary>
     public void Start()
     {
+        //Game setting, and starting the game cycle
         field.DrawLogo();
         Console.WriteLine("\nWho wAtcHed thE sqUiD gAMe WiLl uNdErStaND");
 
@@ -127,13 +150,16 @@ class SquidGame
         GameIsOn = false;
     }
 
+    /// <summary>
+    /// Tile selection and move logic
+    /// </summary>
     private void doMove()
     {
         Console.WriteLine("Choose a tile to jump:");
         int tileNum = userInput.GetUserNum(TilesInGroup);
         field.Clear();
         continueGame = true;
-        tiles[move][tileNum - 1].ActivateTile(this, move, playersAliveNum);
+        tiles[move][tileNum - 1].ActivateTile(this, move, playersAliveNum); // tile will be activated, if it can
     }
 
     public void ContinueGame(int newMove, int newPlayersAliveNum)
