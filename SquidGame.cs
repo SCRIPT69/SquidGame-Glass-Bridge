@@ -13,85 +13,85 @@ class SquidGame
     /// <summary>
     /// Maximum amount of players to be chosen randomly
     /// </summary>
-    private int maxPlayers;
+    private int _maxPlayers;
     public int MaxPlayers
     {
         get
         {
-            return maxPlayers;
+            return _maxPlayers;
         }
         set
         {
-            errors.CheckSettingsError(GameIsOn);
-            errors.CheckLessThanNeededError(value, 1, "MaxPlayers");
-            maxPlayers = value;
+            _errors.CheckSettingsError(GameIsOn);
+            _errors.CheckLessThanNeededError(value, 1, "MaxPlayers");
+            _maxPlayers = value;
         }
     }
     /// <summary>
     /// The number of tiles groups, that players have to pass to win
     /// </summary>
-    private int tilesGroupsNum;
+    private int _tilesGroupsNum;
     public int TilesGroupsNum
     {
         get
         {
-            return tilesGroupsNum;
+            return _tilesGroupsNum;
         }
         set
         {
-            errors.CheckSettingsError(GameIsOn);
-            errors.CheckLessThanNeededError(value, 1, "TilesGroupsNum");
-            tilesGroupsNum = value;
+            _errors.CheckSettingsError(GameIsOn);
+            _errors.CheckLessThanNeededError(value, 1, "TilesGroupsNum");
+            _tilesGroupsNum = value;
         }
     }
     /// <summary>
     /// The number of tiles in one group from which the player must choose one
     /// </summary>
-    private int tilesInGroup;
+    private int _tilesInGroup;
     public int TilesInGroup
     {
         get
         {
-            return tilesInGroup;
+            return _tilesInGroup;
         }
         set
         {
-            errors.CheckSettingsError(GameIsOn);
-            errors.CheckLessThanNeededError(value, 2, "TilesInGroup");
-            tilesInGroup = value;
+            _errors.CheckSettingsError(GameIsOn);
+            _errors.CheckLessThanNeededError(value, 2, "TilesInGroup");
+            _tilesInGroup = value;
         }
     }
     /// <summary>
     /// The amount of tiles, that will do smth with player, after he'd chosen it
     /// </summary>
-    private int tilesWillActivateNum;
+    private int _tilesWillActivateNum;
     public int TilesWillActivateNum
     {
         get
         {
-            return tilesWillActivateNum;
+            return _tilesWillActivateNum;
         }
         set
         {
-            errors.CheckSettingsError(GameIsOn);
-            errors.CheckLessThanNeededError(value, 1, "TilesWillBreakNum");
-            errors.CheckBiggerThanNeededError(value, TilesInGroup - 1, "TilesWillBreakNum");
-            tilesWillActivateNum = value;
+            _errors.CheckSettingsError(GameIsOn);
+            _errors.CheckLessThanNeededError(value, 1, "TilesWillBreakNum");
+            _errors.CheckBiggerThanNeededError(value, TilesInGroup - 1, "TilesWillBreakNum");
+            _tilesWillActivateNum = value;
         }
     }
 
     // objects, that are needed for the game
-    private ConsoleDrawing field;
-    private UserInput userInput;
-    private SquidGameErrors errors;
-    private ITilesFactory factory;
+    private ConsoleDrawing _field;
+    private UserInput _userInput;
+    private SquidGameErrors _errors;
+    private ITilesFactory _factory;
 
     public SquidGame()
     {
         GameIsOn = false;
-        field = new ConsoleDrawing();
-        userInput = new UserInput();
-        errors = new SquidGameErrors();
+        _field = new ConsoleDrawing();
+        _userInput = new UserInput();
+        _errors = new SquidGameErrors();
 
         // default settings
         MaxPlayers = 5;
@@ -100,35 +100,35 @@ class SquidGame
         TilesWillActivateNum = 1;
     }
 
-    private int playersAliveNum;
+    private int _playersAliveNum;
     public int PlayersAliveNum // alive players
     {
         get
         {
-            return playersAliveNum;
+            return _playersAliveNum;
         }
         set
         {
-            errors.CheckCanSetNewGameParametres("PlayersAliveNum", setNewGameParameters);
-            playersAliveNum = value;
+            _errors.CheckCanSetNewGameParametres("PlayersAliveNum", _setNewGameParameters);
+            _playersAliveNum = value;
         }
     }
-    private int move;
+    private int _move;
     public int Move // number of current tiles group
     {
         get
         {
-            return move;
+            return _move;
         }
         set
         {
-            errors.CheckCanSetNewGameParametres("Move", setNewGameParameters);
-            move = value;
+            _errors.CheckCanSetNewGameParametres("Move", _setNewGameParameters);
+            _move = value;
         }
     }
     public Tile[][] Tiles { get; private set; } // massive of tiles groups and tiles in these groups
 
-    private bool setNewGameParameters;
+    private bool _setNewGameParameters;
 
 
     /// <summary>
@@ -137,16 +137,16 @@ class SquidGame
     public void Start()
     {
         //Game setting, and starting the game cycle
-        field.DrawLogo();
+        _field.DrawLogo();
         Console.WriteLine("\nWho wAtcHed thE sqUiD gAMe WiLl uNdErStaND");
 
         Random random = new Random();
 
-        playersAliveNum = random.Next(1, MaxPlayers + 1);
-        move = 0;
+        _playersAliveNum = random.Next(1, MaxPlayers + 1);
+        _move = 0;
 
-        factory = new TilesGroupsFactory();
-        Tiles = factory.GenerateTilesGroups(this);
+        _factory = new TilesGroupsFactory();
+        Tiles = _factory.GenerateTilesGroups(this);
 
         GameIsOn = true;
         startGameCycle();
@@ -161,7 +161,7 @@ class SquidGame
         {
             Console.WriteLine("Remaining players: {0}", PlayersAliveNum);
             Console.WriteLine("\nCocuma co ti...");
-            field.DrawField(this);
+            _field.DrawField(this);
             doMove();
 
             if (PlayersAliveNum == 0)
@@ -184,18 +184,18 @@ class SquidGame
     private void doMove()
     {
         Console.WriteLine("Choose a tile to jump:");
-        int tileNum = userInput.GetUserNum(TilesInGroup);
-        field.Clear();
-        setNewGameParameters = true;
+        int tileNum = _userInput.GetUserNum(TilesInGroup);
+        _field.Clear();
+        _setNewGameParameters = true;
         Tiles[Move][tileNum - 1].ActivateTile(this); // tile will be activated, if it can
     }
 
     public void ContinueGame()
     {
-        if (setNewGameParameters && PlayersAliveNum == 0)
+        if (_setNewGameParameters && PlayersAliveNum == 0)
         {
-            field.DrawField(this);
+            _field.DrawField(this);
         }
-        setNewGameParameters = false;
+        _setNewGameParameters = false;
     }
 }
