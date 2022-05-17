@@ -1,7 +1,7 @@
 ﻿using System;
 
 /// <summary>
-/// class of Squid Game, game options here
+/// Class of Squid Game, game options here
 /// </summary>
 class SquidGame
 {
@@ -127,6 +127,9 @@ class SquidGame
         startGameCycle();
     }
 
+    /// <summary>
+    /// Start the game cycle
+    /// </summary>
     private void startGameCycle()
     {
         while (GameIsOn)
