@@ -8,13 +8,16 @@ class TilesGroupsFactory : ITilesFactory
     /// <summary>
     /// Returning massive of massives with tiles groups with tiles in them
     /// </summary>
-    /// <param name="tilesInGroup">The number of tiles in one group from which the player must choose one</param>
-    /// <param name="tilesWillActivateNum">The amount of tiles, that will do smth with player, after he'd chosen it</param>
-    /// <param name="tilesGroupsNum">The number of tiles groups, that players have to pass to win</param>
+    /// <param name="tilesOptons">The SquidGame class instance, with tiles options</param>
     /// <param name="random">The instance of Random class</param>
     /// <returns></returns>
-    public Tile[][] GenerateTilesGroups(int tilesInGroup, int tilesWillActivateNum, int tilesGroupsNum, Random random)
+    public Tile[][] GenerateTilesGroups(SquidGame tilesOptons)
     {
+        Random random = new Random();
+        int tilesInGroup = tilesOptons.TilesInGroup;
+        int tilesWillActivateNum = tilesOptons.TilesWillActivateNum;
+        int tilesGroupsNum = tilesOptons.TilesGroupsNum;
+
         Tile[][] tilesGroups = new Tile[tilesGroupsNum][];
         for (int i = 0; i < tilesGroupsNum; i++)
         {

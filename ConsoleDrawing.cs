@@ -13,11 +13,14 @@ class ConsoleDrawing
     /// <param name="playersAliveNum">alive players</param>
     /// <param name="move">number of current tiles group</param>
     /// <param name="tiles">massive of tiles groups and tiles in these groups</param>
-    /// <param name="tilesOptions">other options of the tiles</param>
-    public void DrawField(int playersAliveNum, int move, Tile[][] tiles, SquidGame tilesOptions)
+    /// <param name="gameOptions">Game options</param>
+    public void DrawField(SquidGame gameOptions)
     {
-        int tilesGroupsNum = tilesOptions.TilesGroupsNum;
-        int tilesInGroup = tilesOptions.TilesInGroup;
+        int playersAliveNum = gameOptions.PlayersAliveNum;
+        int move = gameOptions.Move;
+        Tile[][] tiles = gameOptions.Tiles;
+        int tilesGroupsNum = gameOptions.TilesGroupsNum;
+        int tilesInGroup = gameOptions.TilesInGroup;
 
         for (int i = 0; i < tilesGroupsNum; i++)
         {
