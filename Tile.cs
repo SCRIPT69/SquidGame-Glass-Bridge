@@ -26,44 +26,38 @@ class Tile
     /// <summary>
     /// Tile's action, after it was chosen
     /// </summary>
-    /// <param name="gameProperties"></param>
-    /// <param name="move"></param>
-    /// <param name="playersAliveNum"></param>
-    public void ActivateTile(SquidGame gameProperties, int move, int playersAliveNum)
+    /// <param name="gameProperties">Game properties</param>
+    public void ActivateTile(SquidGame gameProperties)
     {
         if (WillActivate)
         {
             TilePicture = ActivatedTilePic;
-            onActivated(gameProperties, move, playersAliveNum);
+            onActivated(gameProperties);
         }
         else
         {
-            onNotActivated(gameProperties, move, playersAliveNum);
+            onNotActivated(gameProperties);
         }
     }
     /// <summary>
     /// Tile's action, that will kill the player
     /// </summary>
-    /// <param name="gameProperties"></param>
-    /// <param name="move"></param>
-    /// <param name="playersAliveNum"></param>
-    protected virtual void onActivated(SquidGame gameProperties, int move, int playersAliveNum)
+    /// <param name="gameProperties">Game properties</param>
+    protected virtual void onActivated(SquidGame gameProperties)
     {
         Console.WriteLine("\nI wAnNA lIVe. Bdshshss. ААААА");
-        Console.WriteLine("\nThe player number {0} fell and died...", playersAliveNum);
-        move = 0;
-        playersAliveNum--;
-        gameProperties.ContinueGame(move, playersAliveNum);
+        Console.WriteLine("\nThe player number {0} fell and died...", gameProperties.PlayersAliveNum);
+        gameProperties.Move = 0;
+        gameProperties.PlayersAliveNum--;
+        gameProperties.ContinueGame();
     }
     /// <summary>
     /// Tile's action, when tile do nothing
     /// </summary>
-    /// <param name="gameProperties"></param>
-    /// <param name="move"></param>
-    /// <param name="playersAliveNum"></param>
-    protected virtual void onNotActivated(SquidGame gameProperties, int move, int playersAliveNum)
+    /// <param name="gameProperties">Game properties</param>
+    protected virtual void onNotActivated(SquidGame gameProperties)
     {
-        move++;
-        gameProperties.ContinueGame(move, playersAliveNum);
+        gameProperties.Move++;
+        gameProperties.ContinueGame();
     }
 }

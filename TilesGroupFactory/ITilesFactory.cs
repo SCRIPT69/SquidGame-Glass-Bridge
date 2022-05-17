@@ -2,5 +2,5 @@
 
 interface ITilesFactory
 {
-    Tile[][] GenerateTilesGroups(int tilesInGroup, int tilesWillBreakNum, int tilesGroupsNum, Random random);
+    Tile[][] GenerateTilesGroups(SquidGame tilesOptions);
 }

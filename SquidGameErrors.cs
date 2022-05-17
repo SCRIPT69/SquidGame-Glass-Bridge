@@ -13,7 +13,7 @@ class SquidGameErrors
     {
         if( gameIsOn )
         {
-            throw new ArgumentException("settings of the game can not be changed after game was started");
+            throw new SystemException("settings of the game can not be changed after game was started");
         }
     }
     /// <summary>
@@ -40,6 +40,13 @@ class SquidGameErrors
         if (value > needed)
         {
             throw new ArgumentException(name + " value can not be bigger than " + needed);
+        }
+    }
+    public void CheckCanSetNewGameParametres(string name, bool setNewGameParameters)
+    {
+        if( !setNewGameParameters )
+        {
+            throw new SystemException("You can't change '" + name + "' value, because setNewGameParameters is false");
         }
     }
 }
