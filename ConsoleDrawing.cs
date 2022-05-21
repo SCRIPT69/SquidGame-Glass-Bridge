@@ -7,14 +7,7 @@ using System.Threading;
 /// </summary>
 class ConsoleDrawing
 {
-    /// <summary>
-    /// Draw the fild and tiles
-    /// </summary>
-    /// <param name="playersAliveNum">alive players</param>
-    /// <param name="move">number of current tiles group</param>
-    /// <param name="tiles">massive of tiles groups and tiles in these groups</param>
-    /// <param name="gameOptions">Game options</param>
-    public void DrawField(SquidGame gameOptions)
+    public void DrawGameField(SquidGame gameOptions)
     {
         int playersAliveNum = gameOptions.PlayersAliveNum;
         int move = gameOptions.Move;
@@ -38,9 +31,7 @@ class ConsoleDrawing
         }
         Console.WriteLine(new string('-', tilesInGroup * 3));
     }
-    /// <summary>
-    /// Clear console
-    /// </summary>
+
     public void Clear()
     {
         for (int i = 0; i < 100; i++)
@@ -49,10 +40,7 @@ class ConsoleDrawing
         }
     }
 
-    /// <summary>
-    /// Draw SquidGame logo in console
-    /// </summary>
-    public void DrawLogo()
+    public void DrawSquidGameLogo()
     {
         printStringsFromFile("squid game.txt");
         printStringsFromFile("squidward.txt");

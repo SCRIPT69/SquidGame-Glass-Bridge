@@ -5,12 +5,6 @@
 /// </summary>
 class TilesGroupsFactory : ITilesFactory
 {
-    /// <summary>
-    /// Returning massive of massives with tiles groups with tiles in them
-    /// </summary>
-    /// <param name="tilesOptons">The SquidGame class instance, with tiles options</param>
-    /// <param name="random">The instance of Random class</param>
-    /// <returns></returns>
     public Tile[][] GenerateTilesGroups(SquidGame tilesOptons)
     {
         Random random = new Random();

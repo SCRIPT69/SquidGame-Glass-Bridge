@@ -5,9 +5,6 @@
 /// </summary>
 class SquidGame
 {
-    /// <summary>
-    /// Is the game running
-    /// </summary>
     public bool GameIsOn { get; set; } // after game was started, you cannot change game settings
 
     /// <summary>
@@ -101,7 +98,7 @@ class SquidGame
     }
 
     private int _playersAliveNum;
-    public int PlayersAliveNum // alive players
+    public int PlayersAliveNum
     {
         get
         {
@@ -131,13 +128,10 @@ class SquidGame
     private bool _setNewGameParameters;
 
 
-    /// <summary>
-    /// Start the game
-    /// </summary>
-    public void Start()
+    public void StartGame()
     {
         //Game setting, and starting the game cycle
-        _field.DrawLogo();
+        _field.DrawSquidGameLogo();
         Console.WriteLine("\nWho wAtcHed thE sqUiD gAMe WiLl uNdErStaND");
 
         Random random = new Random();
@@ -152,16 +146,13 @@ class SquidGame
         startGameCycle();
     }
 
-    /// <summary>
-    /// Start the game cycle
-    /// </summary>
     private void startGameCycle()
     {
         while (GameIsOn)
         {
             Console.WriteLine("Remaining players: {0}", PlayersAliveNum);
             Console.WriteLine("\nCocuma co ti...");
-            _field.DrawField(this);
+            _field.DrawGameField(this);
             doMove();
 
             if (PlayersAliveNum == 0)
@@ -184,7 +175,7 @@ class SquidGame
     private void doMove()
     {
         Console.WriteLine("Choose a tile to jump:");
-        int tileNum = _userInput.GetUserNum(TilesInGroup);
+        int tileNum = _userInput.GetCorrectNumFromUser(TilesInGroup);
         _field.Clear();
         _setNewGameParameters = true;
         Tiles[Move][tileNum - 1].ActivateTile(this); // tile will be activated, if it can
@@ -194,7 +185,7 @@ class SquidGame
     {
         if (_setNewGameParameters && PlayersAliveNum == 0)
         {
-            _field.DrawField(this);
+            _field.DrawGameField(this);
         }
         _setNewGameParameters = false;
     }

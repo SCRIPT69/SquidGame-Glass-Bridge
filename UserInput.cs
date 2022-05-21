@@ -5,29 +5,24 @@
 /// </summary>
 class UserInput
 {
-    /// <summary>
-    /// Getting the correct player's choice
-    /// </summary>
-    /// <param name="tilesInGroup">the range of numbers that can be chosen by the player</param>
-    /// <returns></returns>
-    public int GetUserNum(int tilesInGroup)
+    public int GetCorrectNumFromUser(int maxNumber)
     {
         string input = Console.ReadLine();
         bool correctInput = false;
-        int chosenTile = 0;
+        int chosenNumber = 0;
         while (correctInput == false)
         {
             bool isNumber = false;
             try
             {
-                chosenTile = int.Parse(input);
+                chosenNumber = int.Parse(input);
                 isNumber = true;
             }
             catch (FormatException)
             {
             }
 
-            if (!isNumber || chosenTile < 1 || chosenTile > tilesInGroup)
+            if (!isNumber || chosenNumber < 1 || chosenNumber > maxNumber)
             {
                 Console.WriteLine("Choose a tile:");
                 input = Console.ReadLine();
@@ -38,6 +33,6 @@ class UserInput
             }
         }
 
-        return chosenTile;
+        return chosenNumber;
     }
 }
