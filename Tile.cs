@@ -9,13 +9,7 @@ class Tile
     /// Will tile activate and do smth or not
     /// </summary>
     public bool WillActivate { get; protected set; }
-    /// <summary>
-    /// Original tile piclure, that will be shown in console
-    /// </summary>
     public string TilePicture { get; protected set; }
-    /// <summary>
-    /// Tile picture, after it was activated
-    /// </summary>
     public string ActivatedTilePic { get; protected set; }
     public Tile(bool willActivate)
     {
