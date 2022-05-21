@@ -110,17 +110,17 @@ class SquidGame
             _playersAliveNum = value;
         }
     }
-    private int _move;
-    public int Move // number of current tiles group
+    private int _numOfCurrentTilesGroup;
+    public int NumOfCurrentTilesGroup
     {
         get
         {
-            return _move;
+            return _numOfCurrentTilesGroup;
         }
         set
         {
             _errors.CheckCanSetNewGameParametres("Move", _setNewGameParameters);
-            _move = value;
+            _numOfCurrentTilesGroup = value;
         }
     }
     public Tile[][] Tiles { get; private set; } // massive of tiles groups and tiles in these groups
@@ -137,7 +137,7 @@ class SquidGame
         Random random = new Random();
 
         _playersAliveNum = random.Next(1, MaxPlayers + 1);
-        _move = 0;
+        _numOfCurrentTilesGroup = 0;
 
         _factory = new TilesGroupsFactory();
         Tiles = _factory.GenerateTilesGroups(this);
@@ -160,7 +160,7 @@ class SquidGame
                 Console.WriteLine("No one passed");
                 break;
             }
-            else if (Move == TilesGroupsNum)
+            else if (NumOfCurrentTilesGroup == TilesGroupsNum)
             {
                 Console.WriteLine("The player number {0} won", PlayersAliveNum);
                 break;
@@ -178,7 +178,7 @@ class SquidGame
         int tileNum = _userInput.GetCorrectNumFromUser(TilesInGroup);
         _field.Clear();
         _setNewGameParameters = true;
-        Tiles[Move][tileNum - 1].ActivateTile(this); // tile will be activated, if it can
+        Tiles[NumOfCurrentTilesGroup][tileNum - 1].ActivateTile(this); // tile will be activated, if it can
     }
 
     public void ContinueGame()

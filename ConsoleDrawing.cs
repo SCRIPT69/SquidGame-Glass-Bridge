@@ -10,7 +10,7 @@ class ConsoleDrawing
     public void DrawGameField(SquidGame gameOptions)
     {
         int playersAliveNum = gameOptions.PlayersAliveNum;
-        int move = gameOptions.Move;
+        int move = gameOptions.NumOfCurrentTilesGroup;
         Tile[][] tiles = gameOptions.Tiles;
         int tilesGroupsNum = gameOptions.TilesGroupsNum;
         int tilesInGroup = gameOptions.TilesInGroup;

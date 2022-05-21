@@ -41,7 +41,7 @@ class Tile
     {
         Console.WriteLine("\nI wAnNA lIVe. Bdshshss. ААААА");
         Console.WriteLine("\nThe player number {0} fell and died...", gameProperties.PlayersAliveNum);
-        gameProperties.Move = 0;
+        gameProperties.NumOfCurrentTilesGroup = 0;
         gameProperties.PlayersAliveNum--;
         gameProperties.ContinueGame();
     }
@@ -51,7 +51,7 @@ class Tile
     /// <param name="gameProperties">Game properties</param>
     protected virtual void onNotActivated(SquidGame gameProperties)
     {
-        gameProperties.Move++;
+        gameProperties.NumOfCurrentTilesGroup++;
         gameProperties.ContinueGame();
     }
 }
