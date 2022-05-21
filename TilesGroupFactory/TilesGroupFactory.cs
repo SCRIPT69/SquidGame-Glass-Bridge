@@ -8,7 +8,6 @@ class TilesGroupsFactory : ITilesFactory
     int extraTilesWillBreak;
     public Tile[][] GenerateTilesGroups(SquidGame tilesOptions)
     {
-        Random random = new Random();
         int tilesInGroup = tilesOptions.TilesInGroup;
         int tilesWillActivateNum = tilesOptions.TilesWillActivateNum;
         int tilesGroupsNum = tilesOptions.TilesGroupsNum;
