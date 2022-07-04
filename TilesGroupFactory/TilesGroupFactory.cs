@@ -11,6 +11,7 @@ class TilesGroupsFactory : ITilesFactory
         int tilesInGroup = tilesOptions.TilesInGroup;
         int tilesWillActivateNum = tilesOptions.TilesWillActivateNum;
         int tilesGroupsNum = tilesOptions.TilesGroupsNum;
+        Random random = new Random();
 
         Tile[][] tilesGroups = new Tile[tilesGroupsNum][];
         for (int groupNum = 0; groupNum < tilesGroupsNum; groupNum++)
@@ -20,16 +21,15 @@ class TilesGroupsFactory : ITilesFactory
             extraTilesWillBreak = tilesWillActivateNum;
             for (int tileNum = 0; tileNum < tilesInGroup; tileNum++)
             {
-                Tile tile = new Tile(generateTileBehaviorProperty(tilesOptions, tileNum));
+                Tile tile = new Tile(generateTileBehaviorProperty(tilesOptions, tileNum, random));
                 tilesGroups[groupNum][tileNum] = tile;
             }
         }
 
         return tilesGroups;
     }
-    private bool generateTileBehaviorProperty(SquidGame tilesOptions, int tileNum)
+    private bool generateTileBehaviorProperty(SquidGame tilesOptions, int tileNum, Random random)
     {
-        Random random = new Random();
         int willActivateNum = random.Next(0, 2);
         if (extraTilesWillBreak != 0 && willActivateNum == 1 || tilesOptions.TilesInGroup - tileNum <= extraTilesWillBreak)
         {
