@@ -43,7 +43,6 @@ class Tile
         Console.WriteLine("\nThe player number {0} fell and died...", gameProperties.PlayersAliveNum);
         gameProperties.NumOfCurrentTilesGroup = 0;
         gameProperties.PlayersAliveNum--;
-        gameProperties.ContinueGame();
     }
     /// <summary>
     /// Tile's action, when tile do nothing
@@ -52,6 +51,5 @@ class Tile
     protected virtual void onNotActivated(SquidGame gameProperties)
     {
         gameProperties.NumOfCurrentTilesGroup++;
-        gameProperties.ContinueGame();
     }
 }

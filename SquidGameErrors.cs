@@ -26,11 +26,11 @@ class SquidGameErrors
             throw new ArgumentException(name + " value can not be bigger than " + needed);
         }
     }
-    public void CheckCanSetNewGameParametres(string name, bool setNewGameParameters)
+    public void CheckCanChangeGameParametres(string name, bool canChangeGameParametres)
     {
-        if( !setNewGameParameters )
+        if( !canChangeGameParametres )
         {
-            throw new SystemException("You can't change '" + name + "' value, because setNewGameParameters is false");
+            throw new SystemException("You can't change '" + name + "' value, because _canChangeGameParametres is false");
         }
     }
 }

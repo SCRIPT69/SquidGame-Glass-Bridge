@@ -106,7 +106,7 @@ class SquidGame
         }
         set
         {
-            _errors.CheckCanSetNewGameParametres("PlayersAliveNum", _setNewGameParameters);
+            _errors.CheckCanChangeGameParametres("PlayersAliveNum", _canChangeGameParametres);
             _playersAliveNum = value;
         }
     }
@@ -119,31 +119,34 @@ class SquidGame
         }
         set
         {
-            _errors.CheckCanSetNewGameParametres("Move", _setNewGameParameters);
+            _errors.CheckCanChangeGameParametres("Move", _canChangeGameParametres);
             _numOfCurrentTilesGroup = value;
         }
     }
     public Tile[][] Tiles { get; private set; } // massive of tiles groups and tiles in these groups
 
-    private bool _setNewGameParameters;
+    private bool _canChangeGameParametres = false;
 
 
     public void StartGame()
     {
-        //Game setting, and starting the game cycle
-        _field.DrawSquidGameLogo();
-        Console.WriteLine("\nWho wAtcHed thE sqUiD gAMe WiLl uNdErStaND");
+        if (!GameIsOn)
+        {
+            //Game setting, and starting the game cycle
+            _field.DrawSquidGameLogo();
+            Console.WriteLine("\nWho wAtcHed thE sqUiD gAMe WiLl uNdErStaND");
 
-        Random random = new Random();
+            Random random = new Random();
 
-        _playersAliveNum = random.Next(1, MaxPlayers + 1);
-        _numOfCurrentTilesGroup = 0;
+            _playersAliveNum = random.Next(1, MaxPlayers + 1);
+            _numOfCurrentTilesGroup = 0;
 
-        _factory = new TilesGroupsFactory();
-        Tiles = _factory.GenerateTilesGroups(this);
+            _factory = new TilesGroupsFactory();
+            Tiles = _factory.GenerateTilesGroups(this);
 
-        GameIsOn = true;
-        startGameCycle();
+            GameIsOn = true;
+            startGameCycle();
+        }
     }
 
     private void startGameCycle()
@@ -177,16 +180,19 @@ class SquidGame
         Console.WriteLine("Choose a tile to jump:");
         int tileNum = _userInput.GetCorrectNumFromUser(TilesInGroup);
         _field.Clear();
-        _setNewGameParameters = true;
+
+        _canChangeGameParametres = true;
         Tiles[NumOfCurrentTilesGroup][tileNum - 1].ActivateTile(this); // tile will be activated, if it can
+        continueGame();
     }
 
-    public void ContinueGame()
+
+    private void continueGame()
     {
-        if (_setNewGameParameters && PlayersAliveNum == 0)
+        if (_canChangeGameParametres && PlayersAliveNum == 0)
         {
             _field.DrawGameField(this);
         }
-        _setNewGameParameters = false;
+        _canChangeGameParametres = false;
     }
 }

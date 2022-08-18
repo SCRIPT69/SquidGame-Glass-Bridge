@@ -12,17 +12,9 @@ class UserInput
         int chosenNumber = 0;
         while (correctInput == false)
         {
-            bool isNumber = false;
-            try
-            {
-                chosenNumber = int.Parse(input);
-                isNumber = true;
-            }
-            catch (FormatException)
-            {
-            }
+            chosenNumber = convertToNumber(input);
 
-            if (!isNumber || chosenNumber < 1 || chosenNumber > maxNumber)
+            if (chosenNumber < 1 || chosenNumber > maxNumber)
             {
                 Console.WriteLine("Choose a tile:");
                 input = Console.ReadLine();
@@ -34,5 +26,19 @@ class UserInput
         }
 
         return chosenNumber;
+    }
+    private int convertToNumber(string value)
+    {
+        int number = 0;
+
+        try
+        {
+            number = int.Parse(value);
+        }
+        catch (FormatException)
+        {
+        }
+
+        return number;
     }
 }

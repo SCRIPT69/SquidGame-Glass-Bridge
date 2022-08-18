@@ -10,20 +10,20 @@ class ConsoleDrawing
     public void DrawGameField(SquidGame gameOptions)
     {
         int playersAliveNum = gameOptions.PlayersAliveNum;
-        int move = gameOptions.NumOfCurrentTilesGroup;
+        int currentMove = gameOptions.NumOfCurrentTilesGroup;
         Tile[][] tiles = gameOptions.Tiles;
         int tilesGroupsNum = gameOptions.TilesGroupsNum;
         int tilesInGroup = gameOptions.TilesInGroup;
 
-        for (int i = 0; i < tilesGroupsNum; i++)
+        for (int tilesGroupIndex = 0; tilesGroupIndex < tilesGroupsNum; tilesGroupIndex++)
         {
             string field = "";
-            for (int j = 0; j < tilesInGroup; j++)
+            for (int tileIndex = 0; tileIndex < tilesInGroup; tileIndex++)
             {
-                field += tiles[i][j].TilePicture;
+                field += tiles[tilesGroupIndex][tileIndex].TilePicture;
             }
 
-            if (i == move && playersAliveNum != 0)
+            if (tilesGroupIndex == currentMove && playersAliveNum != 0)
             {
                 field += " <";
             }
