@@ -20,7 +20,6 @@ class Tile
     /// <summary>
     /// Tile's action, after it was chosen
     /// </summary>
-    /// <param name="gameProperties">Game properties</param>
     public void ActivateTile(SquidGame gameProperties)
     {
         if (WillActivate)
@@ -36,7 +35,6 @@ class Tile
     /// <summary>
     /// Tile's action, that will kill the player
     /// </summary>
-    /// <param name="gameProperties">Game properties</param>
     protected virtual void onActivated(SquidGame gameProperties)
     {
         Console.WriteLine("\nI wAnNA lIVe. Bdshshss. ААААА");
@@ -47,7 +45,6 @@ class Tile
     /// <summary>
     /// Tile's action, when tile do nothing
     /// </summary>
-    /// <param name="gameProperties">Game properties</param>
     protected virtual void onNotActivated(SquidGame gameProperties)
     {
         gameProperties.NumOfCurrentTilesGroup++;

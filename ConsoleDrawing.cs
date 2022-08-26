@@ -7,18 +7,15 @@ using System.Threading;
 /// </summary>
 class ConsoleDrawing
 {
-    public void DrawGameField(SquidGame gameOptions)
+    public void DrawGameField(int playersAliveNum, int currentMove, Tile[][] tiles)
     {
-        int playersAliveNum = gameOptions.PlayersAliveNum;
-        int currentMove = gameOptions.NumOfCurrentTilesGroup;
-        Tile[][] tiles = gameOptions.Tiles;
-        int tilesGroupsNum = gameOptions.TilesGroupsNum;
-        int tilesInGroup = gameOptions.TilesInGroup;
+        int tilesGroupsNum = tiles.Length;
+        int tilesInGroupNum = tiles[0].Length;
 
         for (int tilesGroupIndex = 0; tilesGroupIndex < tilesGroupsNum; tilesGroupIndex++)
         {
             string field = "";
-            for (int tileIndex = 0; tileIndex < tilesInGroup; tileIndex++)
+            for (int tileIndex = 0; tileIndex < tilesInGroupNum; tileIndex++)
             {
                 field += tiles[tilesGroupIndex][tileIndex].TilePicture;
             }
@@ -29,7 +26,7 @@ class ConsoleDrawing
             }
             Console.WriteLine("\n" + field);
         }
-        Console.WriteLine(new string('-', tilesInGroup * 3));
+        Console.WriteLine(new string('-', tilesInGroupNum * 3));
     }
 
     public void Clear()

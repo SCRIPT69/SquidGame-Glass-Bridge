@@ -71,13 +71,13 @@ class SquidGame
         set
         {
             _errors.CheckSettingsError(GameIsOn);
-            _errors.CheckLessThanNeededError(value, 1, "TilesWillBreakNum");
-            _errors.CheckBiggerThanNeededError(value, TilesInGroup - 1, "TilesWillBreakNum");
+            _errors.CheckLessThanNeededError(value, 1, "TilesWillActivateNum");
+            _errors.CheckBiggerThanNeededError(value, TilesInGroup - 1, "TilesWillActivateNum");
             _tilesWillActivateNum = value;
         }
     }
 
-    // objects, that are needed for the game
+    // objects composition, that are needed for the game
     private ConsoleDrawing _field;
     private UserInput _userInput;
     private SquidGameErrors _errors;
@@ -106,7 +106,7 @@ class SquidGame
         }
         set
         {
-            _errors.CheckCanChangeGameParametres("PlayersAliveNum", _canChangeGameParametres);
+            _errors.CheckCanChangeGameParametres("PlayersAliveNum", _canChangeGameParameters);
             _playersAliveNum = value;
         }
     }
@@ -119,13 +119,13 @@ class SquidGame
         }
         set
         {
-            _errors.CheckCanChangeGameParametres("Move", _canChangeGameParametres);
+            _errors.CheckCanChangeGameParametres("Move", _canChangeGameParameters);
             _numOfCurrentTilesGroup = value;
         }
     }
     public Tile[][] Tiles { get; private set; } // massive of tiles groups and tiles in these groups
 
-    private bool _canChangeGameParametres = false;
+    private bool _canChangeGameParameters = false;
 
 
     public void StartGame()
@@ -141,8 +141,8 @@ class SquidGame
             _playersAliveNum = random.Next(1, MaxPlayers + 1);
             _numOfCurrentTilesGroup = 0;
 
-            _factory = new TilesGroupsFactory();
-            Tiles = _factory.GenerateTilesGroups(this);
+            _factory = new TilesGroupsFactory(TilesInGroup, TilesWillActivateNum, TilesGroupsNum);
+            Tiles = _factory.GenerateTilesGroups();
 
             GameIsOn = true;
             startGameCycle();
@@ -155,7 +155,7 @@ class SquidGame
         {
             Console.WriteLine("Remaining players: {0}", PlayersAliveNum);
             Console.WriteLine("\nCocuma co ti...");
-            _field.DrawGameField(this);
+            _field.DrawGameField(PlayersAliveNum, NumOfCurrentTilesGroup, Tiles);
             doMove();
 
             if (PlayersAliveNum == 0)
@@ -181,18 +181,17 @@ class SquidGame
         int tileNum = _userInput.GetCorrectNumFromUser(TilesInGroup);
         _field.Clear();
 
-        _canChangeGameParametres = true;
+        _canChangeGameParameters = true;
         Tiles[NumOfCurrentTilesGroup][tileNum - 1].ActivateTile(this); // tile will be activated, if it can
         continueGame();
     }
 
-
     private void continueGame()
     {
-        if (_canChangeGameParametres && PlayersAliveNum == 0)
+        if (_canChangeGameParameters && PlayersAliveNum == 0)
         {
-            _field.DrawGameField(this);
+            _field.DrawGameField(PlayersAliveNum, NumOfCurrentTilesGroup, Tiles);
         }
-        _canChangeGameParametres = false;
+        _canChangeGameParameters = false;
     }
 }

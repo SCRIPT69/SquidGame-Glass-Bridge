@@ -2,5 +2,5 @@
 
 interface ITilesFactory
 {
-    Tile[][] GenerateTilesGroups(SquidGame tilesOptions);
+    Tile[][] GenerateTilesGroups();
 }

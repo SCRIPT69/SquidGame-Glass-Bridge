@@ -5,40 +5,50 @@
 /// </summary>
 class TilesGroupsFactory : ITilesFactory
 {
-    int extraTilesWillBreak;
-    public Tile[][] GenerateTilesGroups(SquidGame tilesOptions)
+    public int TilesInGroup { get; set; }
+    public int TilesWillActivateNum { get; set; }
+    public int TilesGroupsNum { get; set; }
+
+    protected int _extraTilesWillBreak;
+
+    public TilesGroupsFactory(int tilesInGroup, int tilesWillActivateNum, int tilesGroupsNum)
     {
-        int tilesInGroup = tilesOptions.TilesInGroup;
-        int tilesWillActivateNum = tilesOptions.TilesWillActivateNum;
-        int tilesGroupsNum = tilesOptions.TilesGroupsNum;
+        TilesInGroup = tilesInGroup;
+        TilesWillActivateNum = tilesWillActivateNum;
+        TilesGroupsNum = tilesGroupsNum;
+    }
+
+    public Tile[][] GenerateTilesGroups()
+    {
         Random random = new Random();
 
-        Tile[][] tilesGroups = new Tile[tilesGroupsNum][];
-        for (int groupNum = 0; groupNum < tilesGroupsNum; groupNum++)
+        Tile[][] tilesGroups = new Tile[TilesGroupsNum][];
+        for (int groupNum = 0; groupNum < TilesGroupsNum; groupNum++)
         {
-            tilesGroups[groupNum] = new Tile[tilesInGroup];
+            tilesGroups[groupNum] = new Tile[TilesInGroup];
 
-            extraTilesWillBreak = tilesWillActivateNum;
-            for (int tileNum = 0; tileNum < tilesInGroup; tileNum++)
+            _extraTilesWillBreak = TilesWillActivateNum;
+            for (int tileNum = 0; tileNum < TilesInGroup; tileNum++)
             {
-                Tile tile = new Tile(generateTileBehaviorProperty(tilesOptions, tileNum, random));
-                tilesGroups[groupNum][tileNum] = tile;
+                tilesGroups[groupNum][tileNum] = generateTileBehavior(tileNum, random);
             }
         }
 
         return tilesGroups;
     }
-    private bool generateTileBehaviorProperty(SquidGame tilesOptions, int tileNum, Random random)
+    protected virtual Tile generateTileBehavior(int tileNum, Random random)
     {
+        bool willBreak;
         int willActivateNum = random.Next(0, 2);
-        if (extraTilesWillBreak != 0 && willActivateNum == 1 || tilesOptions.TilesInGroup - tileNum <= extraTilesWillBreak)
+        if (_extraTilesWillBreak != 0 && willActivateNum == 1 || TilesInGroup - tileNum <= _extraTilesWillBreak)
         {
-            extraTilesWillBreak--;
-            return true;
+            _extraTilesWillBreak--;
+            willBreak = true;
         }
         else
         {
-            return false;
+            willBreak = false;
         }
+        return new Tile(willBreak);
     }
 }
