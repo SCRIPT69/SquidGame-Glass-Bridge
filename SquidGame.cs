@@ -5,7 +5,7 @@
 /// </summary>
 class SquidGame
 {
-    public bool GameIsOn { get; set; } // after game was started, you cannot change game settings
+    public bool GameIsOn { get; private set; } // after game was started, you cannot change game settings
 
     /// <summary>
     /// Maximum amount of players to be chosen randomly
