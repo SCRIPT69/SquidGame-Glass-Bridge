@@ -107,6 +107,7 @@ class SquidGame
         set
         {
             _errors.CheckCanChangeGameParametres("PlayersAliveNum", _canChangeGameParameters);
+            _errors.CheckLessThanNeededError(value, 0, "PlayersAliveNum");
             _playersAliveNum = value;
         }
     }
@@ -120,6 +121,7 @@ class SquidGame
         set
         {
             _errors.CheckCanChangeGameParametres("Move", _canChangeGameParameters);
+            _errors.CheckLessThanNeededError(value, 0, "NumOfCurrentTilesGroup");
             _numOfCurrentTilesGroup = value;
         }
     }
