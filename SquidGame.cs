@@ -190,7 +190,7 @@ class SquidGame
 
     private void continueGame()
     {
-        if (_canChangeGameParameters && PlayersAliveNum == 0)
+        if (PlayersAliveNum == 0)
         {
             _field.DrawGameField(PlayersAliveNum, NumOfCurrentTilesGroup, Tiles);
         }
