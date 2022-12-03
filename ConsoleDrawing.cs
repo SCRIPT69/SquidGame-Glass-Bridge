@@ -7,8 +7,12 @@ using System.Threading;
 /// </summary>
 class ConsoleDrawing
 {
-    public void DrawGameField(int playersAliveNum, int currentMove, Tile[][] tiles)
+    public void DrawGameField()
     {
+        int playersAliveNum = SquidGame.PlayersAliveNum;
+        int currentMove = SquidGame.NumOfCurrentTilesGroup;
+        Tile[][] tiles = SquidGame.Tiles;
+
         int tilesGroupsNum = tiles.Length;
         int tilesInGroupNum = tiles[0].Length;
 

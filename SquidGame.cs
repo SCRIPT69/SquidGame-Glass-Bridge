@@ -1,17 +1,24 @@
 ﻿using System;
 
 /// <summary>
-/// Class of Squid Game, game options here
+/// Static class of Squid Game, game options here
 /// </summary>
-class SquidGame
+static class SquidGame
 {
-    public bool GameIsOn { get; private set; } // after game was started, you cannot change game settings
+    // after game was started, you cannot change game settings
+    public static bool GameIsOn { get; private set; } = false;
+
+    // objects composition, that are needed for the game
+    private static SquidGameErrors _errors = new SquidGameErrors();
+    private static ConsoleDrawing _field = new ConsoleDrawing();
+    private static UserInput _userInput = new UserInput();
+    private static ITilesFactory _factory;
 
     /// <summary>
     /// Maximum amount of players to be chosen randomly
     /// </summary>
-    private int _maxPlayers;
-    public int MaxPlayers
+    private static int _maxPlayers = 5; // default value
+    public static int MaxPlayers
     {
         get
         {
@@ -19,7 +26,7 @@ class SquidGame
         }
         set
         {
-            _errors.CheckSettingsError(GameIsOn);
+            _errors.CheckSettingsError();
             _errors.CheckLessThanNeededError(value, 1, "MaxPlayers");
             _maxPlayers = value;
         }
@@ -27,8 +34,8 @@ class SquidGame
     /// <summary>
     /// The number of tiles groups, that players have to pass to win
     /// </summary>
-    private int _tilesGroupsNum;
-    public int TilesGroupsNum
+    private static int _tilesGroupsNum = 5; // default value
+    public static int TilesGroupsNum
     {
         get
         {
@@ -36,7 +43,7 @@ class SquidGame
         }
         set
         {
-            _errors.CheckSettingsError(GameIsOn);
+            _errors.CheckSettingsError();
             _errors.CheckLessThanNeededError(value, 1, "TilesGroupsNum");
             _tilesGroupsNum = value;
         }
@@ -44,8 +51,8 @@ class SquidGame
     /// <summary>
     /// The number of tiles in one group from which the player must choose one
     /// </summary>
-    private int _tilesInGroup;
-    public int TilesInGroup
+    private static int _tilesInGroup = 2; // default value
+    public static int TilesInGroup
     {
         get
         {
@@ -53,7 +60,7 @@ class SquidGame
         }
         set
         {
-            _errors.CheckSettingsError(GameIsOn);
+            _errors.CheckSettingsError();
             _errors.CheckLessThanNeededError(value, 2, "TilesInGroup");
             _tilesInGroup = value;
         }
@@ -61,8 +68,8 @@ class SquidGame
     /// <summary>
     /// The amount of tiles, that will do smth with player, after he'd chosen it
     /// </summary>
-    private int _tilesWillActivateNum;
-    public int TilesWillActivateNum
+    private static int _tilesWillActivateNum = 1; // default value
+    public static int TilesWillActivateNum
     {
         get
         {
@@ -70,35 +77,15 @@ class SquidGame
         }
         set
         {
-            _errors.CheckSettingsError(GameIsOn);
+            _errors.CheckSettingsError();
             _errors.CheckLessThanNeededError(value, 1, "TilesWillActivateNum");
             _errors.CheckBiggerThanNeededError(value, TilesInGroup - 1, "TilesWillActivateNum");
             _tilesWillActivateNum = value;
         }
     }
 
-    // objects composition, that are needed for the game
-    private ConsoleDrawing _field;
-    private UserInput _userInput;
-    private SquidGameErrors _errors;
-    private ITilesFactory _factory;
-
-    public SquidGame()
-    {
-        GameIsOn = false;
-        _field = new ConsoleDrawing();
-        _userInput = new UserInput();
-        _errors = new SquidGameErrors();
-
-        // default settings
-        MaxPlayers = 5;
-        TilesGroupsNum = 5;
-        TilesInGroup = 2;
-        TilesWillActivateNum = 1;
-    }
-
-    private int _playersAliveNum;
-    public int PlayersAliveNum
+    private static int _playersAliveNum;
+    public static int PlayersAliveNum
     {
         get
         {
@@ -106,14 +93,14 @@ class SquidGame
         }
         set
         {
-            _errors.CheckCanChangeGameParametres("PlayersAliveNum", _canChangeGameParameters);
+            _errors.CheckCanChangeGameParametres("PlayersAliveNum");
             _errors.CheckLessThanNeededError(value, 0, "PlayersAliveNum");
             _errors.CheckBiggerThanNeededError(value, MaxPlayers, "TilesWillActivateNum");
             _playersAliveNum = value;
         }
     }
-    private int _numOfCurrentTilesGroup;
-    public int NumOfCurrentTilesGroup
+    private static int _numOfCurrentTilesGroup;
+    public static int NumOfCurrentTilesGroup
     {
         get
         {
@@ -121,21 +108,21 @@ class SquidGame
         }
         set
         {
-            _errors.CheckCanChangeGameParametres("NumOfCurrentTilesGroup", _canChangeGameParameters);
+            _errors.CheckCanChangeGameParametres("NumOfCurrentTilesGroup");
             _errors.CheckLessThanNeededError(value, 0, "NumOfCurrentTilesGroup");
             _numOfCurrentTilesGroup = value;
         }
     }
-    public Tile[][] Tiles { get; private set; } // massive of tiles groups and tiles in these groups
+    public static Tile[][] Tiles { get; private set; } // massive of tiles groups and tiles in these groups
 
     /// <summary>
-    /// This field is used for my personal pattern named "Gates"
+    /// This property is used for my personal pattern named "Gates"
     /// Some game properties can only be changed when this field equals true, at certain times
     /// </summary>
-    private bool _canChangeGameParameters = false;
+    public static bool CanChangeGameParameters { get; private set; }
 
 
-    public void StartGame()
+    public static void StartGame()
     {
         if (!GameIsOn)
         {
@@ -156,13 +143,13 @@ class SquidGame
         }
     }
 
-    private void startGameCycle()
+    private static void startGameCycle()
     {
         while (GameIsOn)
         {
             Console.WriteLine("Remaining players: {0}", PlayersAliveNum);
             Console.WriteLine("\nCocuma co ti...");
-            _field.DrawGameField(PlayersAliveNum, NumOfCurrentTilesGroup, Tiles);
+            _field.DrawGameField();
             doMove();
 
             if (PlayersAliveNum == 0)
@@ -182,24 +169,24 @@ class SquidGame
     /// <summary>
     /// Tile selection and move logic
     /// </summary>
-    private void doMove()
+    private static void doMove()
     {
         Console.WriteLine("Choose a tile to jump:");
         int tileNum = _userInput.GetCorrectNumFromUser(TilesInGroup);
         _field.Clear();
 
-        _canChangeGameParameters = true; // allowing changing game properties by tile
-        Tiles[NumOfCurrentTilesGroup][tileNum - 1].ActivateTile(this); // tile will be activated, if it can
+        CanChangeGameParameters = true; // allowing changing game properties by tile
+        Tiles[NumOfCurrentTilesGroup][tileNum - 1].ActivateTile(); // tile will be activated, if it can
         continueGame();
     }
 
-    private void continueGame()
+    private static void continueGame()
     {
         if (PlayersAliveNum == 0)
         {
-            _field.DrawGameField(PlayersAliveNum, NumOfCurrentTilesGroup, Tiles);
+            _field.DrawGameField();
         }
         // again we prohibit the change of game properties from other classes, "closing the gates back"
-        _canChangeGameParameters = false;
+        CanChangeGameParameters = false;
     }
 }

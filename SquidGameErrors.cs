@@ -5,16 +5,16 @@
 /// </summary>
 class SquidGameErrors
 {
-    public void CheckSettingsError(bool gameIsOn)
+    public void CheckSettingsError()
     {
-        if( gameIsOn )
+        if (SquidGame.GameIsOn)
         {
-            throw new SystemException("settings of the game can not be changed after game was started");
+            throw new SystemException("Settings of the game can not be changed after game was started");
         }
     }
     public void CheckLessThanNeededError(int value, int needed, string name)
     {
-        if( value < needed )
+        if (value < needed)
         {
             throw new ArgumentException(name + " value can not be less than " + needed);
         }
@@ -31,10 +31,9 @@ class SquidGameErrors
     /// Pattern "Gates" error checking. Checking, if game property can be changed at the moment
     /// </summary>
     /// <param name="name">Name of property</param>
-    /// <param name="canChangeGameParametres"></param>
-    public void CheckCanChangeGameParametres(string name, bool canChangeGameParametres)
+    public void CheckCanChangeGameParametres(string name)
     {
-        if( !canChangeGameParametres )
+        if (!SquidGame.CanChangeGameParameters)
         {
             throw new SystemException("You can't change '" + name + "' value, because _canChangeGameParametres is false");
         }

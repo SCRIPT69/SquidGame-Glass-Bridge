@@ -20,33 +20,33 @@ class Tile
     /// <summary>
     /// Tile's action, after it was chosen
     /// </summary>
-    public void ActivateTile(SquidGame gameProperties)
+    public void ActivateTile()
     {
         if (WillActivate)
         {
             TilePicture = ActivatedTilePic;
-            onActivated(gameProperties);
+            onActivated();
         }
         else
         {
-            onNotActivated(gameProperties);
+            onNotActivated();
         }
     }
     /// <summary>
     /// Tile's action, that will kill the player
     /// </summary>
-    protected virtual void onActivated(SquidGame gameProperties)
+    protected virtual void onActivated()
     {
         Console.WriteLine("\nI wAnNA lIVe. Bdshshss. ААААА");
-        Console.WriteLine("\nThe player number {0} fell and died...", gameProperties.PlayersAliveNum);
-        gameProperties.NumOfCurrentTilesGroup = 0;
-        gameProperties.PlayersAliveNum--;
+        Console.WriteLine("\nThe player number {0} fell and died...", SquidGame.PlayersAliveNum);
+        SquidGame.NumOfCurrentTilesGroup = 0;
+        SquidGame.PlayersAliveNum--;
     }
     /// <summary>
     /// Tile's action, when tile do nothing
     /// </summary>
-    protected virtual void onNotActivated(SquidGame gameProperties)
+    protected virtual void onNotActivated()
     {
-        gameProperties.NumOfCurrentTilesGroup++;
+        SquidGame.NumOfCurrentTilesGroup++;
     }
 }
