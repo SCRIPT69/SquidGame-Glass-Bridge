@@ -108,6 +108,7 @@ class SquidGame
         {
             _errors.CheckCanChangeGameParametres("PlayersAliveNum", _canChangeGameParameters);
             _errors.CheckLessThanNeededError(value, 0, "PlayersAliveNum");
+            _errors.CheckBiggerThanNeededError(value, MaxPlayers, "TilesWillActivateNum");
             _playersAliveNum = value;
         }
     }
@@ -120,13 +121,17 @@ class SquidGame
         }
         set
         {
-            _errors.CheckCanChangeGameParametres("Move", _canChangeGameParameters);
+            _errors.CheckCanChangeGameParametres("NumOfCurrentTilesGroup", _canChangeGameParameters);
             _errors.CheckLessThanNeededError(value, 0, "NumOfCurrentTilesGroup");
             _numOfCurrentTilesGroup = value;
         }
     }
     public Tile[][] Tiles { get; private set; } // massive of tiles groups and tiles in these groups
 
+    /// <summary>
+    /// This field is used for my personal pattern named "Gates"
+    /// Some game properties can only be changed when this field equals true, at certain times
+    /// </summary>
     private bool _canChangeGameParameters = false;
 
 
@@ -183,7 +188,7 @@ class SquidGame
         int tileNum = _userInput.GetCorrectNumFromUser(TilesInGroup);
         _field.Clear();
 
-        _canChangeGameParameters = true;
+        _canChangeGameParameters = true; // allowing changing game properties by tile
         Tiles[NumOfCurrentTilesGroup][tileNum - 1].ActivateTile(this); // tile will be activated, if it can
         continueGame();
     }
@@ -194,6 +199,7 @@ class SquidGame
         {
             _field.DrawGameField(PlayersAliveNum, NumOfCurrentTilesGroup, Tiles);
         }
+        // again we prohibit the change of game properties from other classes, "closing the gates back"
         _canChangeGameParameters = false;
     }
 }

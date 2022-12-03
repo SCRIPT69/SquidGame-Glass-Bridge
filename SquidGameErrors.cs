@@ -26,6 +26,12 @@ class SquidGameErrors
             throw new ArgumentException(name + " value can not be bigger than " + needed);
         }
     }
+
+    /// <summary>
+    /// Pattern "Gates" error checking. Checking, if game property can be changed at the moment
+    /// </summary>
+    /// <param name="name">Name of property</param>
+    /// <param name="canChangeGameParametres"></param>
     public void CheckCanChangeGameParametres(string name, bool canChangeGameParametres)
     {
         if( !canChangeGameParametres )
